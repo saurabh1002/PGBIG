@@ -13,6 +13,12 @@ class Options:
         self.parser = argparse.ArgumentParser()
         self.opt = None
 
+    @staticmethod
+    def init_from_json(json_path):
+        options = Options()
+        options.opt = log.load_options(json_path)
+        return options
+
     def _initial(self):
         # ===============================================================
         #                     General options

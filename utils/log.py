@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
-import json
 import os
+import json
 import torch
-import pandas as pd
+import argparse
 import numpy as np
+import pandas as pd
 
 
 def save_csv_log(opt, head, value, is_create=False, file_name='test'):
@@ -47,3 +48,9 @@ def save_ckpt(state, is_best=True, file_name=['ckpt_best.pth.tar', 'ckpt_last.pt
 def save_options(opt):
     with open(opt.ckpt + '/option.json', 'w') as f:
         f.write(json.dumps(vars(opt), sort_keys=False, indent=4))
+
+def load_options(json_path):
+    with open(json_path, 'r') as f:
+        args = argparse.Namespace()
+        args.__dict__.update(json.load(f))
+        return argparse.ArgumentParser().parse_args(namespace=args)
