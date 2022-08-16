@@ -81,11 +81,10 @@ class Options:
         if self.opt.test_sample_num == -2:
             test_sample_num = '8_256_all'
 
-        log_name = '{}_{}_in{}_out{}_ks{}_dctn{}_dropout_{}_lr_{}_d_model_{}_e_{}_d_{}'.format(script_name,
+        log_name = '{}_{}_in{}_out{}_dctn{}_dropout_{}_lr_{}_d_model_{}'.format(script_name,
                                                                           test_sample_num,
                                                                           self.opt.input_n,
                                                                           self.opt.output_n,
-                                                                          self.opt.kernel_size,
                                                                           self.opt.dct_n,
                                                                           self.opt.drop_out,
                                                                           self.opt.lr_now,
