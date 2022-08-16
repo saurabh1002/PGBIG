@@ -18,12 +18,8 @@ class MultiStageModel(Module):
         super(MultiStageModel, self).__init__()
 
         self.opt = opt
-        self.kernel_size = opt.kernel_size
         self.d_model = opt.d_model
-        # self.seq_in = seq_in
         self.dct_n = opt.dct_n
-        # ks = int((kernel_size + 1) / 2)
-        assert opt.kernel_size == 10
 
         self.in_features = opt.in_features
         self.num_stage = opt.num_stage
@@ -83,14 +79,14 @@ class MultiStageModel(Module):
                                                  p_dropout=opt.drop_out,
                                                  num_stage=self.decoder_layer_num)
 
-    def forward(self, src, input_n=10, output_n=10, itera=1):
+    def forward(self, src):
         output_n = self.output_n
         input_n = self.input_n
 
         bs = src.shape[0]
         # [2000,512,22,20]
         dct_n = self.dct_n
-        idx = list(range(self.kernel_size)) + [self.kernel_size -1] * output_n
+        idx = list(range(input_n)) + [input_n -1] * output_n
         # [b,20,66]
         input_gcn = src[:, idx].clone()
 

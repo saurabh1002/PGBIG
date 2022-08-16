@@ -45,8 +45,6 @@ Human Motion Prediction](assets/07627.pdf) (CVPR 2022 paper)
 python main_h36m.py
   --data_dir
 [dataset path]
---kernel_size
-10
 --dct_n
 35
 --input_n
@@ -79,8 +77,6 @@ cuda:0
 python main_cmu_3d.py
 --data_dir
 [dataset path]
---kernel_size
-10
 --dct_n
 35
 --input_n
@@ -112,8 +108,6 @@ cuda:0
 `
 --data_dir
 [dataset path]
---kernel_size
-10
 --dct_n
 40
 --input_n
@@ -141,8 +135,6 @@ cuda:0
 `
 
 **Note**: 
-+ `kernel_size`: is the length of used input seqence.
-  
 + `d_model`: is the latent code dimension of a joint.
   
 + `test_sample_num`: is the sample number for test dataset, can be set as `{8, 256, -1(all)}`. For example, if it is set to `8`, it means that 8 samples are sampled for each action as the test set.

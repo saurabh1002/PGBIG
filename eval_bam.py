@@ -54,7 +54,7 @@ def fn(persons_in, masks_in, scene, frame, n_in, n_out, pids):
         person_out = []
         for n_iter in range(n_out // option.opt.output_n):
             person_in = torch.from_numpy(normalized_seq.reshape(n_in, -1)).unsqueeze(0).to(option.opt.cuda_idx)
-            person_out_hat, _, _, _ = model(person_in, input_n=n_in, output_n=option.opt.output_n)  # predict using your model
+            person_out_hat, _, _, _ = model(person_in)  # predict using your model
             person_out_hat = undo_normalization_to_seq(
                     person_out_hat[0, n_in:].cpu().detach().numpy().reshape(-1, 17, 3),
                     normalization_params[0],

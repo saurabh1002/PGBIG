@@ -40,27 +40,20 @@ class Options:
         # ===============================================================
         #                     Model options
         # ===============================================================
-        # self.parser.add_argument('--input_size', type=int, default=2048, help='the input size of the neural net')
-        # self.parser.add_argument('--output_size', type=int, default=85, help='the output size of the neural net')
-        self.parser.add_argument('--in_features', type=int, default=66, help='size of each model layer')
-        self.parser.add_argument('--num_stage', type=int, default=12, help='size of each model layer')
-        self.parser.add_argument('--d_model', type=int, default=64, help='past frame number')
-        self.parser.add_argument('--kernel_size', type=int, default=10, help='past frame number')
+        self.parser.add_argument('--in_features', type=int, default=66, help='number of features = num_joints x dim_of_each_joint')
+        self.parser.add_argument('--num_stage', type=int, default=12, help='number of residual blocks in GCN')
+        self.parser.add_argument('--d_model', type=int, default=64, help='latent code dimension of a joint')
         self.parser.add_argument('--drop_out', type=float, default=0.3, help='drop out probability')
 
         # ===============================================================
         #                     Running options
         # ===============================================================
-        self.parser.add_argument('--encoder_n', type=int, default=6, help='encoder layer num')
-        self.parser.add_argument('--decoder_n', type=int, default=6, help='decoder layer num')
-        self.parser.add_argument('--rep_pose_size', type=int, default=2000, help='rep_pose_size')
-        self.parser.add_argument('--updata_rate', type=float, default=0.3, help='rep pose updata_rate')
-        self.parser.add_argument('--input_n', type=int, default=50, help='past frame number')
-        self.parser.add_argument('--output_n', type=int, default=10, help='future frame number')
-        self.parser.add_argument('--dct_n', type=int, default=20, help='future frame number')
-        self.parser.add_argument('--lr_now', type=float, default=0.005)
+        self.parser.add_argument('--input_n', type=int, default=50, help='number of frames input to the model (N)')
+        self.parser.add_argument('--output_n', type=int, default=10, help='number of frames to predict (T)')
+        self.parser.add_argument('--dct_n', type=int, default=20, help='number of DCT coefficients per joint sequence')
+        self.parser.add_argument('--lr_now', type=float, default=0.005, help='Learning rate now')
         self.parser.add_argument('--max_norm', type=float, default=10000)
-        self.parser.add_argument('--epoch', type=int, default=100)
+        self.parser.add_argument('--epoch', type=int, default=100, help='number of epochs to train')
         self.parser.add_argument('--batch_size', type=int, default=32)
         self.parser.add_argument('--test_batch_size', type=int, default=32)
         self.parser.add_argument('--is_load', dest='is_load', action='store_true',
@@ -97,8 +90,6 @@ class Options:
                                                                           self.opt.drop_out,
                                                                           self.opt.lr_now,
                                                                           self.opt.d_model,
-                                                                          self.opt.encoder_n,
-                                                                          self.opt.decoder_n,
                                                                           )
         self.opt.exp = log_name
         # do some pre-check

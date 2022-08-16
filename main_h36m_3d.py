@@ -237,7 +237,7 @@ def run_model(net_pred, optimizer=None, is_train=0, data_loader=None, epo=1, opt
         p3d_sup_1 = smooth3.clone()[:, -out_n - seq_in:].reshape(
             [-1, seq_in + out_n, len(dim_used) // 3, 3])
 
-        p3d_out_all_4, p3d_out_all_3, p3d_out_all_2, p3d_out_all_1 = net_pred(input, input_n=in_n, output_n=out_n, itera=itera)
+        p3d_out_all_4, p3d_out_all_3, p3d_out_all_2, p3d_out_all_1 = net_pred(input)
 
 
         p3d_out_4 = p3d_h36.clone()[:, in_n:in_n + out_n]
