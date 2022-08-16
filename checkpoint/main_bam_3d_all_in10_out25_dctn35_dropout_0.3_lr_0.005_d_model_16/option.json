@@ -20,6 +20,6 @@
     "epoch": 50,
     "batch_size": 16,
     "test_batch_size": 128,
-    "is_load": true,
+    "is_load": false,
     "test_sample_num": -1
 }

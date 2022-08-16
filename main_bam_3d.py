@@ -171,9 +171,6 @@ def run_model(net_pred, optimizer=None, is_train=0, data_loader=None, epo=1, opt
     in_n = opt.input_n
     out_n = opt.output_n
 
-    seq_in = opt.kernel_size
-
-    itera = 1
     st = time.time()
     for i, (p3d) in enumerate(data_loader):
         batch_size, seq_n, all_dim = p3d.shape
@@ -185,39 +182,39 @@ def run_model(net_pred, optimizer=None, is_train=0, data_loader=None, epo=1, opt
         p3d = p3d.float().to(opt.cuda_idx)
 
         smooth1 = smooth(p3d,
-                         sample_len=opt.kernel_size + opt.output_n,
-                         kernel_size=opt.kernel_size).clone()
+                         sample_len=opt.input_n + opt.output_n,
+                         kernel_size=opt.input_n).clone()
 
         smooth2 = smooth(smooth1,
-                         sample_len=opt.kernel_size + opt.output_n,
-                         kernel_size=opt.kernel_size).clone()
+                         sample_len=opt.input_n + opt.output_n,
+                         kernel_size=opt.input_n).clone()
 
         smooth3 = smooth(smooth2,
-                         sample_len=opt.kernel_size + opt.output_n,
-                         kernel_size=opt.kernel_size).clone()
+                         sample_len=opt.input_n + opt.output_n,
+                         kernel_size=opt.input_n).clone()
 
         input = p3d.clone()
 
-        p3d_sup_4 = p3d.clone()[:, -out_n - seq_in:].reshape(
-            [-1, seq_in + out_n, 17, 3])
-        p3d_sup_3 = smooth1.clone()[:, -out_n - seq_in:].reshape(
-            [-1, seq_in + out_n, 17, 3])
-        p3d_sup_2 = smooth2.clone()[:, -out_n - seq_in:].reshape(
-            [-1, seq_in + out_n, 17, 3])
-        p3d_sup_1 = smooth3.clone()[:, -out_n - seq_in:].reshape(
-            [-1, seq_in + out_n, 17, 3])
+        p3d_sup_4 = p3d.clone()[:, -out_n - in_n:].reshape(
+            [-1, in_n + out_n, 17, 3])
+        p3d_sup_3 = smooth1.clone()[:, -out_n - in_n:].reshape(
+            [-1, in_n + out_n, 17, 3])
+        p3d_sup_2 = smooth2.clone()[:, -out_n - in_n:].reshape(
+            [-1, in_n + out_n, 17, 3])
+        p3d_sup_1 = smooth3.clone()[:, -out_n - in_n:].reshape(
+            [-1, in_n + out_n, 17, 3])
 
         p3d_out_all_4, p3d_out_all_3, p3d_out_all_2, p3d_out_all_1 = net_pred(input)
 
-        p3d_out_4 = p3d_out_all_4[:, seq_in:]
+        p3d_out_4 = p3d_out_all_4[:, in_n:]
         p3d_out_4 = p3d_out_4.reshape([-1, out_n, all_dim//3, 3])
 
         p3d = p3d.reshape([-1, in_n + out_n, all_dim//3, 3])
 
-        p3d_out_all_4 = p3d_out_all_4.reshape([batch_size, seq_in + out_n, -1, 3])
-        p3d_out_all_3 = p3d_out_all_3.reshape([batch_size, seq_in + out_n, -1, 3])
-        p3d_out_all_2 = p3d_out_all_2.reshape([batch_size, seq_in + out_n, -1, 3])
-        p3d_out_all_1 = p3d_out_all_1.reshape([batch_size, seq_in + out_n, -1, 3])
+        p3d_out_all_4 = p3d_out_all_4.reshape([batch_size, in_n + out_n, -1, 3])
+        p3d_out_all_3 = p3d_out_all_3.reshape([batch_size, in_n + out_n, -1, 3])
+        p3d_out_all_2 = p3d_out_all_2.reshape([batch_size, in_n + out_n, -1, 3])
+        p3d_out_all_1 = p3d_out_all_1.reshape([batch_size, in_n + out_n, -1, 3])
 
         # 2d joint loss:
         grad_norm = 0
