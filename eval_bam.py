@@ -24,7 +24,7 @@ ev = Evaluation(
 # data for future use!
 
 
-option = Options.init_from_json("./checkpoint/main_bam_3d_all_in10_out25_ks10_dctn35_dropout_0.3_lr_0.005_d_model_16_e_6_d_6/option.json")
+option = Options.init_from_json("./checkpoint/main_bam_3d_all_in10_out25_dctn35_dropout_0.3_lr_0.005_d_model_16/option.json")
 
 model = stage_4.MultiStageModel(opt=option.opt)
 model.to(option.opt.cuda_idx)
@@ -72,4 +72,4 @@ def fn(persons_in, masks_in, scene, frame, n_in, n_out, pids):
 result = ev.ndms(fn)
 
 # save results to file
-eval_utils.save_results(TMP_DIR + "results.pkl", result)
+eval_utils.save_results(TMP_DIR + "/results_pgbig.pkl", result)
