@@ -15,7 +15,7 @@ import torch.optim as optim
 def main(opt):
     lr_now = opt.lr_now
     start_epoch = 1
-    # opt.is_eval = True
+
     print('>>> create models')
 
     net_pred = stage_4.MultiStageModel(opt=opt)
