@@ -1,0 +1,11 @@
+{
+    "cpu": 8,
+    "docker_shm": "64g",
+    "gpus": 1,
+    "memory": 32,
+    "name": "pgbig",
+    "rp_version": "0.0.2",
+    "stdout_to_file": false,
+    "tag": "saurabh_gupta/rp_pgbig_cvpr23",
+    "username": "saurabh_gupta"
+}

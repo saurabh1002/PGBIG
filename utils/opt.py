@@ -25,14 +25,14 @@ class Options:
         # ===============================================================
         self.parser.add_argument('--cuda_idx', type=str, default='cuda:0', help='cuda idx')
         self.parser.add_argument('--data_dir', type=str,
-                                 default='/media/mtz/076f660b-b7de-4646-833c-0b7466f35185/data_set/h3.6m/dataset/',
+                                 default='/home/user/BAMp',
                                  help='path to dataset')
         self.parser.add_argument('--rep_pose_dir', type=str,
                                  default='./rep_pose/rep_pose.txt',help='path to dataset')
         self.parser.add_argument('--exp', type=str, default='test', help='ID of experiment')
         self.parser.add_argument('--is_eval', dest='is_eval', action='store_true',
                                  help='whether it is to evaluate the model')
-        self.parser.add_argument('--ckpt', type=str, default='checkpoint/', help='path to save checkpoint')
+        self.parser.add_argument('--ckpt', type=str, default='checkpoint-BCD/', help='path to save checkpoint')
         self.parser.add_argument('--skip_rate', type=int, default=1, help='skip rate of samples')
         self.parser.add_argument('--skip_rate_test', type=int, default=1, help='skip rate of samples for test')
         self.parser.add_argument('--extra_info', type=str, default='', help='extra information') 
@@ -40,25 +40,25 @@ class Options:
         # ===============================================================
         #                     Model options
         # ===============================================================
-        self.parser.add_argument('--in_features', type=int, default=66, help='number of features = num_joints x dim_of_each_joint')
+        self.parser.add_argument('--in_features', type=int, default=51, help='number of features = num_joints x dim_of_each_joint')
         self.parser.add_argument('--num_stage', type=int, default=12, help='number of residual blocks in GCN')
-        self.parser.add_argument('--d_model', type=int, default=64, help='latent code dimension of a joint')
+        self.parser.add_argument('--d_model', type=int, default=16, help='latent code dimension of a joint')
         self.parser.add_argument('--drop_out', type=float, default=0.3, help='drop out probability')
 
         # ===============================================================
         #                     Running options
         # ===============================================================
-        self.parser.add_argument('--input_n', type=int, default=50, help='number of frames input to the model (N)')
-        self.parser.add_argument('--output_n', type=int, default=10, help='number of frames to predict (T)')
-        self.parser.add_argument('--dct_n', type=int, default=20, help='number of DCT coefficients per joint sequence')
+        self.parser.add_argument('--input_n', type=int, default=10, help='number of frames input to the model (N)')
+        self.parser.add_argument('--output_n', type=int, default=25, help='number of frames to predict (T)')
+        self.parser.add_argument('--dct_n', type=int, default=35, help='number of DCT coefficients per joint sequence')
         self.parser.add_argument('--lr_now', type=float, default=0.005, help='Learning rate now')
         self.parser.add_argument('--max_norm', type=float, default=10000)
-        self.parser.add_argument('--epoch', type=int, default=100, help='number of epochs to train')
-        self.parser.add_argument('--batch_size', type=int, default=32)
-        self.parser.add_argument('--test_batch_size', type=int, default=32)
+        self.parser.add_argument('--epoch', type=int, default=50, help='number of epochs to train')
+        self.parser.add_argument('--batch_size', type=int, default=16)
+        self.parser.add_argument('--test_batch_size', type=int, default=128)
         self.parser.add_argument('--is_load', dest='is_load', action='store_true',
                                  help='whether to load existing model')
-        self.parser.add_argument('--test_sample_num', type=int, default=256, help='the num of sample, '
+        self.parser.add_argument('--test_sample_num', type=int, default=-1, help='the num of sample, '
                                                                                   'that sampled from test dataset'
                                                                                   '{8,256,-1(all dataset)}')
 
@@ -70,6 +70,9 @@ class Options:
     def parse(self, makedir=True):
         self._initial()
         self.opt = self.parser.parse_args()
+
+        self.opt.train_data = ['/0_1_0/B', '/0_1_0/C', '/0_1_0/D']
+        self.opt.eval_data = ['/0_1_0/A']
 
         # if not self.opt.is_eval:
         script_name = os.path.basename(sys.argv[0])[:-3]
